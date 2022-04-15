@@ -6,7 +6,7 @@ import re
 from nltk.stem.porter import PorterStemmer
 from nltk.stem.wordnet import WordNetLemmatizer
 
-text = "An apple is red in colour. It grows on trees. It is a fruit."
+text = "An apple is red in colour. It grows on trees. It is a fruit." # Try running program using various other sentences
 
 print("Sent_Tokenize : ", sent_tokenize(text))
 print("Word_Tokenize : ", word_tokenize(text))
