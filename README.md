@@ -1,2 +1,2 @@
 # GradingSystem
-Contains code file for an Automatic Grading System
+Contains code files for an Automatic Grading System
