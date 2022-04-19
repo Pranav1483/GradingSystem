@@ -40,6 +40,6 @@ print("Lemmatized Words : ", lemmatized_words)
 tagged = nltk.pos_tag(lemmatized_words)
 print("Tagged : ", tagged)
 
-# Counting Number of Words
-number_of_words = len(words)
+# Counting Number of Words (considering only the keywords in an answer)
+number_of_words = len(words_without_stopwords)
 print(number_of_words)
