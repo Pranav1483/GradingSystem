@@ -39,3 +39,7 @@ print("Lemmatized Words : ", lemmatized_words)
 # Part of Speech Tagging (Tags each word as a Noun, Verb, etc.)
 tagged = nltk.pos_tag(lemmatized_words)
 print("Tagged : ", tagged)
+
+# Counting Number of Words
+number_of_words = len(words)
+print(number_of_words)
