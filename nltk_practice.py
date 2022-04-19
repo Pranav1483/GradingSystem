@@ -5,8 +5,9 @@ from nltk.corpus import stopwords
 import re
 from nltk.stem.porter import PorterStemmer
 from nltk.stem.wordnet import WordNetLemmatizer
+import enchant
 
-text = "An apple is red in colour. It grows on trees. It is a fruit." # Try running program using various other sentences
+text = "An appl is red in colour. It grows on treees. It is a fruit." # Try running program using various other sentences
 
 print("Sent_Tokenize : ", sent_tokenize(text))
 print("Word_Tokenize : ", word_tokenize(text))
@@ -14,7 +15,8 @@ print("Word_Tokenize : ", word_tokenize(text))
 split_text = text.split()
 
 # Using re.sub function to remove punctuation marks so as to get words only
-words = word_tokenize(re.sub(r"[^A-Za-z0-9]", " ", text.lower()))
+words = word_tokenize(re.sub(r"[^A-Za-z\d]", " ", text.lower()))
+print("The words in the answer are : ", words)
 
 print("Split Function : ", split_text)
 
@@ -42,4 +44,15 @@ print("Tagged : ", tagged)
 
 # Counting Number of Words (considering only the keywords in an answer)
 number_of_words = len(words_without_stopwords)
-print(number_of_words)
+print("Number of Keywords in the answer is : ", number_of_words)
+
+# Finding words with Spelling Mistakes
+dictionary = enchant.Dict("en_IN")
+misspelled = []
+
+for i in words:
+    if not dictionary.check(i):
+        misspelled.append(i)
+
+number_misspelled = len(misspelled)
+print("The misspelled words are : " + str(misspelled), "\nTotal number of misspelled words are : ", number_misspelled)
