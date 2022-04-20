@@ -2,7 +2,7 @@ Flowchart
 
 First of, we start by displaying a login page, where the user can go forward only if he/she enters the right password
 Then we call functions to open the model file and student answer file, where the model file is used to train the model and then evaluate the student answer sheet
-Making use of read function to read the data in the file and perform teh following checks : 
+Making use of read function to read the data in the file and perform the following checks : 
   • Sentence Tokenization
   • Word Tokenization
   • Removing Stopwords
@@ -12,3 +12,10 @@ Making use of read function to read the data in the file and perform teh followi
   • K Means Clustering
 We can also check for spelling mistakes while grading the sheet
 Finally marks can be displayed
+
+Multiple Linear Regression Parameters :
+  • Spelling Mistakes
+  • Key Words      
+  • Parts of Speech Count
+  • Word Count
+  • Punctuation
