@@ -14,8 +14,8 @@ We can also check for spelling mistakes while grading the sheet
 Finally marks can be displayed
 
 Multiple Linear Regression Parameters :
-  • Spelling Mistakes
-  • Key Words      
-  • Parts of Speech Count
-  • Word Count
-  • Punctuation
+  • Spelling Mistakes - Count
+  • Key Words - Count of each Keywords or their Synonyms      
+  • Parts of Speech Count - Count
+  • Word Count - Count
+  • Punctuation - Count
