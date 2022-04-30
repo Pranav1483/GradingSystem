@@ -124,10 +124,37 @@ def marking(vocab, bow1, bow2, num_misspelled, num_word, total_marks, text1):
     coef_small = change*coef_small
     student_mark = 0
     for i in range(len(vocab)):
-        if bow1(i) > 0:
-            if len(vocab(i)) > 6:
-                student_mark += bow2(i)*coef_large
+        if bow1[i] > 0:
+            if len(vocab[i]) > 6:
+                student_mark += bow2[i]*coef_large
             else:
-                student_mark += bow2(i)*coef_small
+                student_mark += bow2[i]*coef_small
     student_mark = student_mark - (num_misspelled/num_word)*10
     return student_mark
+
+
+# Main
+
+login()
+model_name = str(input("Enter Filename of Model Sheet : "))
+answer_name = str(input("Enter Filename of Student Answer Sheet : "))
+
+model_text = read_file(model_name)
+answer_text = read_file(answer_name)
+
+model_text_list = word_tokenize(re.sub(r"[^A-Za-z\d]", " ", model_text.lower()))
+answer_text_list = word_tokenize(re.sub(r"[A-Za-z\d]", " ", answer_text.lower()))
+
+l_model = lemmatizer(model_text_list)
+l_student = lemmatizer(answer_text_list)
+
+l_s_model = no_stopwords(l_model)
+l_s_student = no_stopwords(l_student)
+
+sp_mistakes = misspelled(answer_text_list)
+
+l_s_student1 = synonym_equaliser(l_s_model, l_s_student)
+b = BoW(l_s_model, l_s_student1)
+
+marks = marking(b[0], b[1], b[2], len(sp_mistakes), len(l_s_model), 100.0, l_s_model)
+print("The Marks are : ", marks)
