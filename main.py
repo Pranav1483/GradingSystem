@@ -100,10 +100,34 @@ def BoW(text1, text2):
     return [vocab, bow1, bow2]
 
 
-def marking(vocab, bow1, bow2, num_misspelled, num_word, total_marks):
+def marking(vocab, bow1, bow2, num_misspelled, num_word, total_marks, text1):
     sum_large = 0
     sum_small = 0
-    coef = num_word/total_marks
     num_large1 = 0
     num_small1 = 0
-    for i in vocab
+    for i in text1:
+        if len(i) > 6:
+            num_large1 += 1
+        else:
+            num_small1 += 1
+    ratio = (num_small1 + num_large1)/num_large1
+    coef_large = ratio*total_marks/num_word
+    coef_small = total_marks/num_word
+    for i in text1:
+        if len(i) > 6:
+            sum_large += coef_large
+        else:
+            sum_small += coef_small
+    total = sum_small + sum_large
+    change = total_marks/total
+    coef_large = change*coef_large
+    coef_small = change*coef_small
+    student_mark = 0
+    for i in range(len(vocab)):
+        if bow1(i) > 0:
+            if len(vocab(i)) > 6:
+                student_mark += bow2(i)*coef_large
+            else:
+                student_mark += bow2(i)*coef_small
+    student_mark = student_mark - (num_misspelled/num_word)*10
+    return student_mark
