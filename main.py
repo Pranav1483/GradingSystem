@@ -1,18 +1,8 @@
-import nltk
-from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords, wordnet
 import re
 from nltk.stem.wordnet import WordNetLemmatizer
 import enchant
-from sklearn.cluster import KMeans
-import numpy as np
-import pandas as pd
-import statsmodels.api as sm
-import matplotlib as plt
-import seaborn as sns
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn import metrics
 import os
 import time
 import pwinput
@@ -78,11 +68,11 @@ def unique(sequence):
 
 
 def synonym_equaliser(text1, text2):
-    for w in range(len(text2)):
-        for x in range(len(unique(syn_vector(text2[w])))):
-            for y in range(len(text1)):
-                if unique(syn_vector(text2[w]))[x] == text1[y]:
-                    text2[w] = text1[y]
+    for w in range(0, len(text2)):
+        for d in unique(syn_vector(text2[w])):
+            for y in text1:
+                if d == y:
+                    text2[w] = y
     return text2
 
 
@@ -106,7 +96,7 @@ def marking(vocab, bow1, bow2, num_misspelled, num_word, total_marks, text1):
     num_large1 = 0
     num_small1 = 0
     for i in text1:
-        if len(i) > 6:
+        if len(i) > 5:
             num_large1 += 1
         else:
             num_small1 += 1
@@ -114,7 +104,7 @@ def marking(vocab, bow1, bow2, num_misspelled, num_word, total_marks, text1):
     coef_large = ratio*total_marks/num_word
     coef_small = total_marks/num_word
     for i in text1:
-        if len(i) > 6:
+        if len(i) > 5:
             sum_large += coef_large
         else:
             sum_small += coef_small
@@ -125,7 +115,7 @@ def marking(vocab, bow1, bow2, num_misspelled, num_word, total_marks, text1):
     student_mark = 0
     for i in range(len(vocab)):
         if bow1[i] > 0:
-            if len(vocab[i]) > 6:
+            if len(vocab[i]) > 5:
                 student_mark += bow2[i]*coef_large
             else:
                 student_mark += bow2[i]*coef_small
@@ -136,14 +126,13 @@ def marking(vocab, bow1, bow2, num_misspelled, num_word, total_marks, text1):
 # Main
 
 login()
-model_name = str(input("Enter Filename of Model Sheet : "))
 answer_name = str(input("Enter Filename of Student Answer Sheet : "))
 
-model_text = read_file(model_name)
-answer_text = read_file(answer_name)
+model_text = read_file("Model_Answer.txt")
+answer_text = read_file(answer_name+".txt")
 
 model_text_list = word_tokenize(re.sub(r"[^A-Za-z\d]", " ", model_text.lower()))
-answer_text_list = word_tokenize(re.sub(r"[A-Za-z\d]", " ", answer_text.lower()))
+answer_text_list = word_tokenize(re.sub(r"[^A-Za-z\d]", " ", answer_text.lower()))
 
 l_model = lemmatizer(model_text_list)
 l_student = lemmatizer(answer_text_list)
@@ -156,5 +145,5 @@ sp_mistakes = misspelled(answer_text_list)
 l_s_student1 = synonym_equaliser(l_s_model, l_s_student)
 b = BoW(l_s_model, l_s_student1)
 
-marks = marking(b[0], b[1], b[2], len(sp_mistakes), len(l_s_model), 100.0, l_s_model)
+marks = marking(b[0], b[1], b[2], len(sp_mistakes), len(l_s_model), 50.0, l_s_model)
 print("The Marks are : ", marks)
