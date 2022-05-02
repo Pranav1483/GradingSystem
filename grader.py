@@ -119,7 +119,7 @@ def marking(vocab, bow1, bow2, num_misspelled, num_word, total_marks, text1):
                 student_mark += bow2[i]*coef_large
             else:
                 student_mark += bow2[i]*coef_small
-    student_mark = student_mark - (num_misspelled/num_word)*10
+    student_mark = student_mark - (num_misspelled/num_word)*3
     return student_mark
 
 
